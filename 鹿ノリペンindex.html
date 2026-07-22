@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>🦌 ノリ鹿語翻訳</title>
+
+<style>
+
+body{
+    font-family:sans-serif;
+    background:#222;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+h1{
+    font-size:32px;
+}
+
+textarea{
+    width:90%;
+    max-width:500px;
+    height:120px;
+    font-size:22px;
+    border-radius:10px;
+    padding:10px;
+}
+
+button{
+    padding:10px 20px;
+    margin:5px;
+    font-size:18px;
+    border-radius:10px;
+}
+
+.result{
+    background:white;
+    color:black;
+    max-width:500px;
+    min-height:50px;
+    margin:20px auto;
+    padding:15px;
+    border-radius:10px;
+    font-size:25px;
+}
+
+
+table{
+    margin:20px auto;
+    border-collapse:collapse;
+    background:white;
+    color:black;
+}
+
+th,td{
+    border:1px solid black;
+    padding:8px;
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<h1>🦌 ノリ鹿語翻訳</h1>
+
+
+<p>ノリ鹿語を入力</p>
+
+<textarea id="input" oninput="translateText()"></textarea>
+
+<br>
+
+<button onclick="translateText()">翻訳</button>
+<button onclick="copyText()">📋コピー</button>
+<button onclick="clearText()">🗑クリア</button>
+
+
+<h2>日本語</h2>
+
+<div class="result" id="result"></div>
+
+
+
+<h2>📖 ノリ鹿語暗号表</h2>
+
+
+<table>
+
+<tr>
+<th>行</th>
+<th>あ</th>
+<th>い</th>
+<th>う</th>
+<th>え</th>
+<th>お</th>
+</tr>
+
+<tr><td>あ</td><td>1</td><td>☆</td><td>♪</td><td>→</td><td>1.</td></tr>
+<tr><td>か</td><td>2</td><td>￥</td><td>＄</td><td>€</td><td>2.</td></tr>
+<tr><td>さ</td><td>3</td><td>％</td><td>°</td><td>＃</td><td>3.</td></tr>
+<tr><td>た</td><td>4</td><td>○</td><td>＊</td><td>・</td><td>4.</td></tr>
+<tr><td>な</td><td>5</td><td>＋</td><td>×</td><td>÷</td><td>5.</td></tr>
+<tr><td>は</td><td>6</td><td>＜</td><td>＝</td><td>＞</td><td>6.</td></tr>
+<tr><td>ま</td><td>7</td><td>「</td><td>」</td><td>：</td><td>7.</td></tr>
+<tr><td>や</td><td>8</td><td>―</td><td>々</td><td>―</td><td>8.</td></tr>
+<tr><td>ら</td><td>9</td><td>＾</td><td>｜</td><td>＼</td><td>9.</td></tr>
+<tr><td>わ</td><td>0</td><td>～</td><td>…</td><td></td><td></td></tr>
+
+
+</table>
+
+
+<p>
+🦌 特殊記号<br>
+( → 濁点<br>
+) → 半濁点
+</p>
+
+
+
+<script>
+
+
+const table = {
+
+"1":"あ","☆":"い","♪":"う","→":"え","1.":"お",
+
+"2":"か","￥":"き","＄":"く","€":"け","2.":"こ",
+
+"3":"さ","％":"し","°":"す","＃":"せ","3.":"そ",
+
+"4":"た","○":"ち","＊":"つ","・":"て","4.":"と",
+
+"5":"な","＋":"に","×":"ぬ","÷":"ね","5.":"の",
+
+"6":"は","＜":"ひ","＝":"ふ","＞":"へ","6.":"ほ",
+
+"7":"ま","「":"み","」":"む","：":"め","7.":"も",
+
+"8":"や","々":"ゆ",
+
+"9":"ら","＾":"り","｜":"る","＼":"れ","9.":"ろ",
+
+"0":"わ","～":"を","…":"ん"
+
+};
+
+
+
+function translateText(){
+
+let input=document.getElementById("input").value;
+
+let result="";
+
+
+for(let i=0;i<input.length;i++){
+
+
+let two=input.substring(i,i+2);
+
+
+// 2文字記号を優先
+if(table[two]){
+
+result+=table[two];
+i++;
+
+continue;
+
+}
+
+
+let c=input[i];
+
+
+if(table[c]){
+
+result+=table[c];
+
+}
+
+
+else if(c=="("){
+
+
+let dakuten={
+"か":"が","き":"ぎ","く":"ぐ","け":"げ","こ":"ご",
+"さ":"ざ","し":"じ","す":"ず","せ":"ぜ","そ":"ぞ",
+"た":"だ","ち":"ぢ","つ":"づ","て":"で","と":"ど",
+"は":"ば","ひ":"び","ふ":"ぶ","へ":"べ","ほ":"ぼ"
+};
+
+
+let last=result.slice(-1);
+
+result=result.slice(0,-1)+(dakuten[last]||last);
+
+
+}
+
+
+else if(c==")"){
+
+
+let handakuten={
+"は":"ぱ",
+"ひ":"ぴ",
+"ふ":"ぷ",
+"へ":"ぺ",
+"ほ":"ぽ"
+};
+
+
+let last=result.slice(-1);
+
+result=result.slice(0,-1)+(handakuten[last]||last);
+
+
+}
+
+
+else{
+
+result+=c;
+
+}
+
+
+}
+
+
+document.getElementById("result").innerText=result;
+
+
+}
+
+
+
+function copyText(){
+
+navigator.clipboard.writeText(
+document.getElementById("result").innerText
+);
+
+}
+
+
+
+function clearText(){
+
+document.getElementById("input").value="";
+document.getElementById("result").innerText="";
+
+}
+
+
+</script>
+
+
+</body>
+</html>
