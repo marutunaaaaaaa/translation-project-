@@ -128,7 +128,6 @@ th,td{
 
 <script>
 
-
 const table = {
 
 "1":"あ","☆":"い","♪":"う","→":"え","1.":"お",
@@ -143,7 +142,7 @@ const table = {
 
 "6":"は","＜":"ひ","＝":"ふ","＞":"へ","6.":"ほ",
 
-"7":"ま","「":"み","」":"む","：":"め","7.":"も",
+"7":"ま","「":"み","」":"む","：":"め","7":"も",
 
 "8":"や","々":"ゆ",
 
@@ -154,6 +153,33 @@ const table = {
 };
 
 
+// 日本語→ノリ鹿語
+const reverse = {};
+
+for(let key in table){
+    reverse[table[key]] = key;
+}
+
+
+let mode="decode";
+
+function changeMode(){
+
+if(mode=="decode"){
+    mode="encode";
+    document.getElementById("mode").innerText="🇯🇵日本語 → 🦌ノリ鹿語";
+    document.querySelector("p").innerText="日本語を入力";
+}else{
+    mode="decode";
+    document.getElementById("mode").innerText="🦌ノリ鹿語 → 日本語";
+    document.querySelector("p").innerText="ノリ鹿語を入力";
+}
+
+clearText();
+
+}
+
+
 
 function translateText(){
 
@@ -162,20 +188,69 @@ let input=document.getElementById("input").value;
 let result="";
 
 
+if(mode=="encode"){
+
+
+for(let c of input){
+
+if(reverse[c]){
+result+=reverse[c];
+}else{
+
+// 濁点
+let dakuten={
+"が":"か(","ぎ":"き(","ぐ":"く(","げ":"け(","ご":"こ(",
+"ざ":"さ(","じ":"し(","ず":"す(","ぜ":"せ(","ぞ":"そ(",
+"だ":"た(","ぢ":"ち(","づ":"つ(","で":"て(","ど":"と(",
+"ば":"は(","び":"ひ(","ぶ":"ふ(","べ":"へ(","ぼ":"ほ("
+};
+
+
+if(dakuten[c]){
+result+=reverse[dakuten[c].slice(0,-1)]+"(";
+}
+
+
+// 半濁点
+else if(c=="ぱ"){
+result+="6)";
+}
+else if(c=="ぴ"){
+result+="＜)";
+}
+else if(c=="ぷ"){
+result+="＝)";
+}
+else if(c=="ぺ"){
+result+="＞)";
+}
+else if(c=="ぽ"){
+result+="6.)";
+}
+
+
+else{
+result+=c;
+}
+
+}
+
+}
+
+
+}else{
+
+
 for(let i=0;i<input.length;i++){
 
 
 let two=input.substring(i,i+2);
 
 
-// 2文字記号を優先
 if(table[two]){
-
 result+=table[two];
 i++;
-
 continue;
-
 }
 
 
@@ -183,9 +258,7 @@ let c=input[i];
 
 
 if(table[c]){
-
 result+=table[c];
-
 }
 
 
@@ -201,7 +274,6 @@ let dakuten={
 
 
 let last=result.slice(-1);
-
 result=result.slice(0,-1)+(dakuten[last]||last);
 
 
@@ -221,7 +293,6 @@ let handakuten={
 
 
 let last=result.slice(-1);
-
 result=result.slice(0,-1)+(handakuten[last]||last);
 
 
@@ -229,17 +300,16 @@ result=result.slice(0,-1)+(handakuten[last]||last);
 
 
 else{
-
 result+=c;
-
 }
 
+
+}
 
 }
 
 
 document.getElementById("result").innerText=result;
-
 
 }
 
