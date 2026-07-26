@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🦌ノリ鹿語翻訳</title>
+<style>
+body{font-family:sans-serif;background:#222;color:#fff;text-align:center;padding:20px}
+textarea{width:90%;max-width:600px;height:120px;font-size:20px}
+button{margin:4px;padding:8px 16px}.result{background:#fff;color:#000;padding:12px;border-radius:8px;max-width:600px;margin:16px auto;min-height:40px}
+</style></head><body>
+<h1>🦌ノリ鹿語翻訳</h1>
+<select id="mode"><option value="d">ノリ鹿語→日本語</option><option value="e">日本語→ノリ鹿語</option></select><br><br>
+<textarea id="input"></textarea><br>
+<button onclick="translateText()">翻訳</button><button onclick="navigator.clipboard.writeText(result.innerText)">コピー</button>
+<div id="result" class="result"></div>
+<script>
+const d={"1":"あ","☆":"い","♪":"う","→":"え","1.":"お","2":"か","￥":"き","¥":"き","＄":"く","$":"く","€":"け","2.":"こ","3":"さ","％":"し","%":"し","°":"す","＃":"せ","#":"せ","3.":"そ","4":"た","○":"ち","＊":"つ","*":"つ","・":"て","4.":"と","5":"な","＋":"に","+":"に","×":"ぬ","÷":"ね","5.":"の","6":"は","＜":"ひ","<":"ひ","＝":"ふ","=":"ふ","＞":"へ",">":"へ","6.":"ほ","7":"ま","「":"み","」":"む","：":"め","7.":"も","8":"や","々":"ゆ","8.":"よ","9":"ら","＾":"り","^":"り","｜":"る","|":"る","＼":"れ","\\":"れ","9.":"ろ","0":"わ","～":"を","~":"を","…":"ん"};
+const e={};for(const k in d){if(!(d[k] in e))e[d[k]]=k;}
+function translateText(){
+let s=input.value,r="";
+if(mode.value=="d"){
+for(let i=0;i<s.length;i++){let t=s.substring(i,i+2);if(d[t]){r+=d[t];i++;}else r+=d[s[i]]||s[i];}
+}else{
+const dk={"が":"か(","ぎ":"き(","ぐ":"く(","げ":"け(","ご":"こ(","ざ":"さ(","じ":"し(","ず":"す(","ぜ":"せ(","ぞ":"そ(","だ":"た(","ぢ":"ち(","づ":"つ(","で":"て(","ど":"と(","ば":"は(","び":"ひ(","ぶ":"ふ(","べ":"へ(","ぼ":"ほ(","ぱ":"は)","ぴ":"ひ)","ぷ":"ふ)","ぺ":"へ)","ぽ":"ほ)"};
+for(const c of s){r+=e[c]||dk[c]||c;}
+}
+result.innerText=r;
+}
+input.oninput=translateText;
+</script></body></html>
