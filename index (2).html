@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🦌ノリ鹿語翻訳</title>
+<style>
+body{font-family:sans-serif;background:#222;color:#fff;text-align:center;padding:20px}
+textarea{width:90%;max-width:700px;height:120px;font-size:20px}.result{background:#fff;color:#000;max-width:700px;margin:15px auto;padding:12px;border-radius:8px;min-height:40px}
+</style></head><body>
+<h1>🦌ノリ鹿語翻訳</h1>
+<select id="mode"><option value="d">ノリ鹿語→日本語</option><option value="e">日本語→ノリ鹿語</option></select><br><br>
+<textarea id="input"></textarea><br><button onclick="translateText()">翻訳</button>
+<div id="result" class="result"></div>
+<script>
+const d={"1":"あ","☆":"い","♪":"う","→":"え","1.":"お","2":"か","￥":"き","¥":"き","＄":"く","$":"く","€":"け","2.":"こ","3":"さ","％":"し","%":"し","°":"す","＃":"せ","#":"せ","3.":"そ","4":"た","○":"ち","＊":"つ","*":"つ","・":"て","4.":"と","5":"な","＋":"に","+":"に","×":"ぬ","÷":"ね","5.":"の","6":"は","＜":"ひ","<":"ひ","＝":"ふ","=":"ふ","＞":"へ",">":"へ","6.":"ほ","7":"ま","「":"み","」":"む","：":"め","7.":"も","8":"や","々":"ゆ","8.":"よ","9":"ら","＾":"り","^":"り","｜":"る","|":"る","＼":"れ","\\":"れ","9.":"ろ","0":"わ","～":"を","~":"を","…":"ん"};
+const e={"あ":"1","い":"☆","う":"♪","え":"→","お":"1.","か":"2","き":"￥","く":"＄","け":"€","こ":"2.","さ":"3","し":"％","す":"°","せ":"＃","そ":"3.","た":"4","ち":"○","つ":"＊","て":"・","と":"4.","な":"5","に":"＋","ぬ":"×","ね":"÷","の":"5.","は":"6","ひ":"＜","ふ":"＝","へ":"＞","ほ":"6.","ま":"7","み":"「","む":"」","め":"：","も":"7.","や":"8","ゆ":"々","よ":"8.","ら":"9","り":"＾","る":"｜","れ":"＼","ろ":"9.","わ":"0","を":"～","ん":"…"};
+const dkD={"か":"が","き":"ぎ","く":"ぐ","け":"げ","こ":"ご","さ":"ざ","し":"じ","す":"ず","せ":"ぜ","そ":"ぞ","た":"だ","ち":"ぢ","つ":"づ","て":"で","と":"ど","は":"ば","ひ":"び","ふ":"ぶ","へ":"べ","ほ":"ぼ"};
+const hkD={"は":"ぱ","ひ":"ぴ","ふ":"ぷ","へ":"ぺ","ほ":"ぽ"};
+const dkE={"が":"か(","ぎ":"き(","ぐ":"く(","げ":"け(","ご":"こ(","ざ":"さ(","じ":"し(","ず":"す(","ぜ":"せ(","ぞ":"そ(","だ":"た(","ぢ":"ち(","づ":"つ(","で":"て(","ど":"と(","ば":"は(","び":"ひ(","ぶ":"ふ(","べ":"へ(","ぼ":"ほ(","ぱ":"は)","ぴ":"ひ)","ぷ":"ふ)","ぺ":"へ)","ぽ":"ほ)"};
+function translateText(){let s=input.value,r="";
+if(mode.value=="d"){for(let i=0;i<s.length;i++){let t=s.substring(i,i+2);if(d[t]){r+=d[t];i++;continue;}let c=s[i];if(c=="("){let last=r.slice(-1);r=r.slice(0,-1)+(dkD[last]||last);}else if(c==")"){let last=r.slice(-1);r=r.slice(0,-1)+(hkD[last]||last);}else r+=d[c]||c;}}
+else{for(const c of s)r+=e[c]||dkE[c]||c;}
+result.innerText=r;}
+input.oninput=translateText;
+</script></body></html>
